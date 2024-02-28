@@ -6,13 +6,15 @@ Provides ability for VaticAI partners to report back on sucessful conversions wi
 
 on your build.gradle file declare the vatic sdk dependency as follows
 
-```
+```groovy
 implementation("com.vaticai:postback:1.0.0")
 ```
 
 in your application code simple usage is as follows
 
-```
+```kotlin
+  import com.vaticai.postback.Postback
+
   val postback = Postback(this, "uuidv6-you-woll-receive-from-integration-team") //this is the Context
   postback.received()
 ```
