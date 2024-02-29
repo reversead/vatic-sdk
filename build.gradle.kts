@@ -57,12 +57,13 @@ dependencies {
 
 publishing {
     publications {
-        register<MavenPublication>("release") {
+        create<MavenPublication>("android") {
             groupId = "com.vaticai"
             artifactId = "postback"
             version = "1.0.1"
+            //artifact("$buildDir/outputs/aar/${project.name}-release.aar")
 
-            from(components["release"])
+//            from(components["android"])
 
 
             pom {
@@ -86,17 +87,27 @@ publishing {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/username/mylibrary.git")
-                    developerConnection.set("scm:git:ssh://github.com:username/mylibrary.git")
-                    url.set("https://github.com/username/mylibrary")
+                    connection.set("scm:git:git://github.com:reversead/vatic-sdk.git")
+                    developerConnection.set("scm:git:ssh://github.com:reversead/vatic-sdk.git")
+                    url.set("https://github.com:reversead/vatic-sdk")
                 }
             }
+        }
+    }
 
-            afterEvaluate {
-                from(components["release"])
+    repositories {
+        maven {
+            url = uri("https://central.sonatype.com")
+
+            credentials {
+                username = System.getenv("PUB_USER")
+                password = System.getenv("PUB_PASSWORD")
             }
         }
-
-
     }
+}
+
+signing {
+    useInMemoryPgpKeys(System.getenv("SIGNING_KEY_ID"), System.getenv("SIGNING_KEY"), System.getenv("SIGNING_PASSWORD"))
+    sign(publishing.publications)
 }
